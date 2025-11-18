@@ -23,14 +23,14 @@ def tokenize_and_filter_row(row):
 
 def main():
     # Step 1: Load and rename columns
-    output_dir = 'data/opencoder-stage2-edu'
-    data = load_dataset("OpenCoder-LLM/opc-sft-stage2", "educational_instruct")
-    data = data.rename_column("instruction", "prompt")
-    data = data.rename_column("output", "response")
+    output_dir = '/content/drive/MyDrive/LyricalDream1'
+    data = load_dataset('csv', "AlekseyCalvin/Lyrical_Ru2En_Poems_Songs_MeterMatched_csv_SFT")
+    data = data.rename_column("completion", "response")
 
     train_data = data["train"]
     
-    model_path = "Dream-org/Dream-Coder-v0-Base-7B"
+#   model_path = "Dream-org/Dream-Coder-v0-Base-7B"
+    model_path = "Rainnighttram/Dream-v0-Instruct-7B-4bit"
 
     # Step 2: Filter using multiprocessing
     records = [dict(train_data[i]) for i in range(len(train_data))]
@@ -46,7 +46,7 @@ def main():
     # Step 3: Shuffle and split
     filtered_dataset = filtered_dataset.shuffle(seed=42)
     
-    eval_size = 1000
+    eval_size = 500
     total_size = len(filtered_dataset)
     if total_size < eval_size:
         print(f"Warning: Only {total_size} samples available. Using all for training.")
